@@ -1,3 +1,0 @@
-Hay 7 archivos .dat (datos.dat, Moraza.dat, Baskonia.dat, Santutxu.dat, UD_Merced.dat, Umore_Ona.da, Ariz.dat, Jugadores_Libres.dat), el archivo datos.dat es solo para los usuarios, asi que no hace fata tocarlo para hacer lo siguiente.
-
-Hay que añadir una opción, que creara los jugadores 
