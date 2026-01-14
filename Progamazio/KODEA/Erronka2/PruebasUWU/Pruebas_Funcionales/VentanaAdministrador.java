@@ -346,10 +346,13 @@ public class VentanaAdministrador extends JFrame {
 		}
 	}
 
+	// =======================
+	// PESTAÑA TRASPASO
+	// =======================
 	private JPanel crearPanelTraspasoJugador() {
+
 		JPanel panel = new JPanel(null);
 
-		// Etiquetas
 		JLabel lblOrigen = new JLabel("Jatorri taldea:");
 		lblOrigen.setBounds(50, 30, 150, 25);
 		panel.add(lblOrigen);
@@ -362,114 +365,155 @@ public class VentanaAdministrador extends JFrame {
 		lblDestino.setBounds(450, 30, 150, 25);
 		panel.add(lblDestino);
 
-		// Combo equipos origen
-		JComboBox<String> cbEquipoOrigen = new JComboBox<>(new String[] { "Jugador Libre", "Ariz", "Baskonia", "Moraza",
-				"Santutxu", "UD La Merced", "Umore Ona" });
+		JComboBox<String> cbEquipoOrigen = new JComboBox<>(new String[] {
+				"Jugador Libre", "Ariz", "Baskonia", "Moraza",
+				"Santutxu", "UD La Merced", "Umore Ona"
+		});
 		cbEquipoOrigen.setBounds(200, 30, 200, 25);
 		panel.add(cbEquipoOrigen);
 
-		// Combo jugadores del equipo seleccionado
 		JComboBox<String> cbJugador = new JComboBox<>();
 		cbJugador.setBounds(200, 70, 200, 25);
 		panel.add(cbJugador);
 
-		// Combo equipos destino
-		JComboBox<String> cbEquipoDestino = new JComboBox<>(new String[] { "Jugador Libre", "Ariz", "Baskonia",
-				"Moraza", "Santutxu", "UD La Merced", "Umore Ona" });
+		JComboBox<String> cbEquipoDestino = new JComboBox<>(new String[] {
+				"Jugador Libre", "Ariz", "Baskonia",
+				"Moraza", "Santutxu", "UD La Merced", "Umore Ona"
+		});
 		cbEquipoDestino.setBounds(600, 30, 200, 25);
 		panel.add(cbEquipoDestino);
 
-		// Botón confirmar
 		JButton btnConfirmar = new JButton("Berretsi ekintza");
 		btnConfirmar.setBounds(350, 150, 200, 35);
 		panel.add(btnConfirmar);
 
 		// =====================
-		// Llenar jugadores al cambiar equipo origen
+		// Cargar jugadores
 		// =====================
 		cbEquipoOrigen.addActionListener(e -> {
-			String equipo = cbEquipoOrigen.getSelectedItem().toString();
-			String archivo = obtenerArchivoEquipo(equipo);
+			cbJugador.removeAllItems();
+			String archivo = obtenerArchivoEquipo(cbEquipoOrigen.getSelectedItem().toString());
 
-			cbJugador.removeAllItems(); // limpiar
 			try {
 				if (Files.exists(Paths.get(archivo))) {
-					List<String> lineas = Files.readAllLines(Paths.get(archivo));
-					for (String linea : lineas) {
-						String[] partes = linea.split(";");
-						if (partes.length > 0) {
-							cbJugador.addItem(partes[0]); // el primer campo es el ID
-						}
+					for (String linea : Files.readAllLines(Paths.get(archivo))) {
+						cbJugador.addItem(linea.split(";")[0]);
 					}
 				}
 			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(this, "Errore bat gertatu da jokalariak kargatzean");
+				JOptionPane.showMessageDialog(this, "Errorea jokalariak kargatzean");
 			}
 		});
 
 		// =====================
-		// Acción confirmar traspaso
+		// CONFIRMAR TRASPASO
 		// =====================
 		btnConfirmar.addActionListener(e -> {
+
 			String jugadorId = (String) cbJugador.getSelectedItem();
 			if (jugadorId == null) {
 				JOptionPane.showMessageDialog(this, "Hautatu jokalari bat");
 				return;
 			}
 
-			String equipoOrigen = cbEquipoOrigen.getSelectedItem().toString();
-			String equipoDestino = cbEquipoDestino.getSelectedItem().toString();
+			String archivoOrigen = obtenerArchivoEquipo(cbEquipoOrigen.getSelectedItem().toString());
+			String archivoDestino = obtenerArchivoEquipo(cbEquipoDestino.getSelectedItem().toString());
 
-			int opcion = JOptionPane.showConfirmDialog(this, "¿Operazio honekin jarraitu nahi al duzu?",
-					"Berretsi transferentzia", JOptionPane.YES_NO_OPTION);
+			int opcion = JOptionPane.showConfirmDialog(
+					this,
+					"¿Operazio honekin jarraitu nahi al duzu?",
+					"Berretsi transferentzia",
+					JOptionPane.YES_NO_OPTION
+			);
 
-			if (opcion == JOptionPane.YES_OPTION) {
-				String archivoOrigen = obtenerArchivoEquipo(equipoOrigen);
-				String archivoDestino = obtenerArchivoEquipo(equipoDestino);
+			if (opcion != JOptionPane.YES_OPTION)
+				return;
 
-				try {
-					// 1️⃣ Leer jugadores del archivo origen
-					List<String> lineas = Files.readAllLines(Paths.get(archivoOrigen));
-					String lineaJugador = null;
-					Iterator<String> it = lineas.iterator();
-					while (it.hasNext()) {
-						String linea = it.next();
-						if (linea.startsWith(jugadorId + ";")) {
-							lineaJugador = linea;
-							it.remove(); // eliminar del equipo origen
+			try {
+				List<String> origen = Files.readAllLines(Paths.get(archivoOrigen));
+				String lineaJugador = null;
+
+				Iterator<String> it = origen.iterator();
+				while (it.hasNext()) {
+					String linea = it.next();
+					if (linea.startsWith(jugadorId + ";")) {
+						lineaJugador = linea;
+						it.remove();
+						break;
+					}
+				}
+
+				if (lineaJugador == null) {
+					JOptionPane.showMessageDialog(this, "Ez da jokalaria aurkitu");
+					return;
+				}
+
+				String[] partes = lineaJugador.split(";");
+				int dorsalActual = Integer.parseInt(partes[4]);
+
+				// ⚠️ SI EL DORSAL SE ENCUENTRA REPETIDO ENTRE DOS JUGADORES AL HACER EL TRASPASO.
+				if (dorsalOcupado(archivoDestino, dorsalActual)) {
+
+					while (true) {
+						String input = JOptionPane.showInputDialog(
+								this,
+								"Dorsala okupatuta dago.\nSartu dorsala berria:"
+						);
+
+						if (input == null)
+							return;
+
+						int nuevoDorsal;
+						try {
+							nuevoDorsal = Integer.parseInt(input);
+						} catch (NumberFormatException ex) {
+							JOptionPane.showMessageDialog(this, "Zenbaki balioduna sartu");
+							continue;
+						}
+
+						if (!dorsalOcupado(archivoDestino, nuevoDorsal)) {
+							partes[4] = String.valueOf(nuevoDorsal);
 							break;
 						}
+
+						JOptionPane.showMessageDialog(this, "Dorsal hori ere okupatuta dago");
 					}
-
-					if (lineaJugador == null) {
-						JOptionPane.showMessageDialog(this, "Ez da jokalaria aurkitu");
-						return;
-					}
-
-					// 2️⃣ Guardar cambios en equipo origen
-					Files.write(Paths.get(archivoOrigen), lineas);
-
-					// 3️⃣ Agregar jugador al equipo destino
-					BufferedWriter bw = new BufferedWriter(new FileWriter(archivoDestino, true));
-					bw.write(lineaJugador);
-					bw.newLine();
-					bw.close();
-
-					JOptionPane.showMessageDialog(this, "Transferentzia behar bezala burutu da");
-
-					// refrescar combo de jugadores
-					cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
-
-				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(this, "Errore bat gertatu da transferentzia egitean");
 				}
+
+				Files.write(Paths.get(archivoOrigen), origen);
+
+				BufferedWriter bw = new BufferedWriter(new FileWriter(archivoDestino, true));
+				bw.write(String.join(";", partes));
+				bw.newLine();
+				bw.close();
+
+				JOptionPane.showMessageDialog(this, "Transferentzia behar bezala burutu da");
+
+				cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
+
+			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(this, "Errorea transferentzian");
 			}
 		});
 
-		// Inicializar lista de jugadores del primer equipo
 		cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
-
 		return panel;
+	}
+	
+	// =======================
+	// MÉTODO AUXILIAR DORSAL
+	// =======================
+	private boolean dorsalOcupado(String archivoEquipo, int dorsal) throws IOException {
+		if (!Files.exists(Paths.get(archivoEquipo)))
+			return false;
+
+		for (String linea : Files.readAllLines(Paths.get(archivoEquipo))) {
+			String[] partes = linea.split(";");
+			if (Integer.parseInt(partes[4]) == dorsal) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// =======================
