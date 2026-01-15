@@ -16,18 +16,18 @@ public class Panel_Pestaña_Tarjetas_Equipos {
 		panelEquipos.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 		panelEquipos.add(
-				crearTarjetaEquipo("Moraza", "1925", "Mikel", "PruebasUWU/Imagenes32K/moraza-removebg-preview.png"));
+				crearTarjetaEquipo("Moraza", "1925", "Mikel", "moraza-removebg-preview.png"));
 
-		panelEquipos.add(crearTarjetaEquipo("Baskonia", "1913", "Unai", "PruebasUWU/Imagenes32K/basconia.png"));
+		panelEquipos.add(crearTarjetaEquipo("Baskonia", "1913", "Unai", "basconia.png"));
 
 		panelEquipos
-				.add(crearTarjetaEquipo("Umore Ona", "1982", "Beñat", "PruebasUWU/Imagenes32K/umore ona_resized.png"));
+				.add(crearTarjetaEquipo("Umore Ona", "1982", "Beñat", "umore ona_resized.png"));
 
-		panelEquipos.add(crearTarjetaEquipo("La Merced", "1947", "Asier", "PruebasUWU/Imagenes32K/merced.png"));
+		panelEquipos.add(crearTarjetaEquipo("La Merced", "1947", "Asier", "merced.png"));
 
-		panelEquipos.add(crearTarjetaEquipo("Santutxu", "1914", "Iñaki", "PruebasUWU/Imagenes32K/santutxu.png"));
+		panelEquipos.add(crearTarjetaEquipo("Santutxu", "1914", "Iñaki", "santutxu.png"));
 
-		panelEquipos.add(crearTarjetaEquipo("Ariz", "1978", "Eneko", "PruebasUWU/Imagenes32K/ariz.png"));
+		panelEquipos.add(crearTarjetaEquipo("Ariz", "1978", "Eneko", "ariz.png"));
 
 		return panelEquipos;
 	}
