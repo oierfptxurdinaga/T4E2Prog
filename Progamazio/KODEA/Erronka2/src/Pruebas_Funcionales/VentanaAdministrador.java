@@ -7,6 +7,7 @@ import Prueba_De_Pojos.Jokalari;
 import Metodoak.Cerrar_Sesion;
 import Metodoak.Pestaña_Resultados;
 import Metodoak.CodigoDeVerificacion;
+import Metodoak.Traspaso_Y_Confirmacion;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -374,105 +375,44 @@ public class VentanaAdministrador extends JFrame {
 		// =====================
 		btnConfirmar.addActionListener(e -> {
 
-			String jugadorId = (String) cbJugador.getSelectedItem();
-			if (jugadorId == null) {
-				JOptionPane.showMessageDialog(this, "Hautatu jokalari bat");
-				return;
-			}
+		    String jugadorId = (String) cbJugador.getSelectedItem();
+		    if (jugadorId == null) {
+		        JOptionPane.showMessageDialog(this, "Hautatu jokalari bat");
+		        return;
+		    }
 
-			String archivoOrigen = obtenerArchivoEquipo(cbEquipoOrigen.getSelectedItem().toString());
-			String archivoDestino = obtenerArchivoEquipo(cbEquipoDestino.getSelectedItem().toString());
+		    String archivoOrigen = obtenerArchivoEquipo(
+		            cbEquipoOrigen.getSelectedItem().toString()
+		    );
 
-			int opcion = JOptionPane.showConfirmDialog(this, "¿Operazio honekin jarraitu nahi al duzu?",
-					"Berretsi transferentzia", JOptionPane.YES_NO_OPTION);
+		    String archivoDestino = obtenerArchivoEquipo(
+		            cbEquipoDestino.getSelectedItem().toString()
+		    );
 
-			if (opcion != JOptionPane.YES_OPTION)
-				return;
+		    int opcion = JOptionPane.showConfirmDialog(
+		            this,
+		            "¿Operazio honekin jarraitu nahi al duzu?",
+		            "Berretsi transferentzia",
+		            JOptionPane.YES_NO_OPTION
+		    );
 
-			try {
-				List<String> origen = Files.readAllLines(Paths.get(archivoOrigen));
-				String lineaJugador = null;
+		    if (opcion != JOptionPane.YES_OPTION)
+		        return;
 
-				Iterator<String> it = origen.iterator();
-				while (it.hasNext()) {
-					String linea = it.next();
-					if (linea.startsWith(jugadorId + ";")) {
-						lineaJugador = linea;
-						it.remove();
-						break;
-					}
-				}
+		    boolean correcto = Traspaso_Y_Confirmacion.realizarTraspaso(
+		            this,
+		            jugadorId,
+		            archivoOrigen,
+		            archivoDestino
+		    );
 
-				if (lineaJugador == null) {
-					JOptionPane.showMessageDialog(this, "Ez da jokalaria aurkitu");
-					return;
-				}
-
-				String[] partes = lineaJugador.split(";");
-				int dorsalActual = Integer.parseInt(partes[4]);
-
-				// ⚠️ SI EL DORSAL SE ENCUENTRA REPETIDO ENTRE DOS JUGADORES AL HACER EL
-				// TRASPASO.
-				if (dorsalOcupado(archivoDestino, dorsalActual)) {
-
-					while (true) {
-						String input = JOptionPane.showInputDialog(this,
-								"Dorsala okupatuta dago.\nSartu dorsala berria:");
-
-						if (input == null)
-							return;
-
-						int nuevoDorsal;
-						try {
-							nuevoDorsal = Integer.parseInt(input);
-						} catch (NumberFormatException ex) {
-							JOptionPane.showMessageDialog(this, "Zenbaki balioduna sartu");
-							continue;
-						}
-
-						if (!dorsalOcupado(archivoDestino, nuevoDorsal)) {
-							partes[4] = String.valueOf(nuevoDorsal);
-							break;
-						}
-
-						JOptionPane.showMessageDialog(this, "Dorsal hori ere okupatuta dago");
-					}
-				}
-
-				Files.write(Paths.get(archivoOrigen), origen);
-
-				BufferedWriter bw = new BufferedWriter(new FileWriter(archivoDestino, true));
-				bw.write(String.join(";", partes));
-				bw.newLine();
-				bw.close();
-
-				JOptionPane.showMessageDialog(this, "Transferentzia behar bezala burutu da");
-
-				cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
-
-			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(this, "Errorea transferentzian");
-			}
+		    // Refrescar jugadores si todo ha ido bien
+		    if (correcto) {
+		        cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
+		    }
 		});
-
-		cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
 		return panel;
-	}
 
-	// =======================
-	// MÉTODO AUXILIAR DORSAL
-	// =======================
-	private boolean dorsalOcupado(String archivoEquipo, int dorsal) throws IOException {
-		if (!Files.exists(Paths.get(archivoEquipo)))
-			return false;
-
-		for (String linea : Files.readAllLines(Paths.get(archivoEquipo))) {
-			String[] partes = linea.split(";");
-			if (Integer.parseInt(partes[4]) == dorsal) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// =======================

@@ -44,7 +44,7 @@ public class Jokalari extends Pertsona {
 	@Override
 	public String toString() {
 		return "Jokalari [dortsala=" + dortsala + ", posizioa=" + posizioa + ", taldea=" + taldea + ", izena=" + izena
-				+ ", abz1=" + abz1 + ", adina=" + adina + "]";
+				+ ", abz1=" + abz1 + ", adina=" + adina + "]"+"/n";
 	}
 
 }

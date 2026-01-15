@@ -138,25 +138,6 @@ public class LogIn extends JFrame {
 
 			}
 		
-		/*try {
-		    List<String> lineas = leerDatos();
-
-		    for (String linea : lineas) {
-		        String[] datos = linea.split(";");
-		        if (datos.length < 8) continue;
-
-		        if (usuarioIngresado.equals(datos[5]) &&
-		            passIngresada.equals(datos[6])) {
-
-		            LoggerUtil.guardarLog(datos[5], datos[1]);
-
-		            VentanaUsuarios ventana = new VentanaUsuarios();
-		            ventana.setDatosUsuario(datos);
-		            ventana.setVisible(true);
-		            this.dispose();
-		            return;
-		        }
-		    }*/
 
 			JOptionPane.showMessageDialog(this, "Erabiltzaile-izen edo pasahitz okerra.");
 
@@ -165,23 +146,6 @@ public class LogIn extends JFrame {
 		}
 	}
 	
-	/*private List<String> leerDatos() throws IOException {
-	    InputStream is = getClass().getClassLoader().getResourceAsStream("datos.dat");
-
-	    if (is == null) {
-	        throw new FileNotFoundException("No se encontró datos.dat");
-	    }
-
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-	    List<String> lineas = new ArrayList<>();
-
-	    String linea;
-	    while ((linea = reader.readLine()) != null) {
-	        lineas.add(linea);
-	    }
-	    return lineas;
-	}*/
-
 
 	public static void main(String[] args) {
 		new LogIn().setVisible(true);
