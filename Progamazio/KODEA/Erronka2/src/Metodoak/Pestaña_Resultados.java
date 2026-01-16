@@ -28,7 +28,7 @@ public class Pestaña_Resultados extends JPanel {
 		add(lblEquipo);
 
 		// Combo temporadas
-		String[] temporadas = { "2025/26", "2026/27", "2027/28" };
+		String[] temporadas = { "2024/25", "2025/26", "2026/27", "2027/28" };
 		comboTemporada = new JComboBox<>(temporadas);
 		comboTemporada.setBounds(100, 20, 150, 25);
 		add(comboTemporada);
@@ -52,6 +52,7 @@ public class Pestaña_Resultados extends JPanel {
 		JScrollPane scroll = new JScrollPane(tabla);
 		scroll.setBounds(20, 60, 740, 380);
 		add(scroll);
+		tabla.getTableHeader().setReorderingAllowed(false);
 
 		JButton btnCargar = new JButton("Emaitzak Ikusi");
 		btnCargar.setBounds(560, 20, 150, 25);

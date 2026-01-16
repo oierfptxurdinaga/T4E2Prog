@@ -77,7 +77,7 @@ public class LogIn extends JFrame {
 
 			String codigo = JOptionPane.showInputDialog(this, "Sarbide mugatua\\nSartu egiaztapen-kodea:");
 
-			if (codigo != null && codigo.equals("MC Legacy Edition")) {
+			if (codigo != null && codigo.equals("Legacy Edition")) {
 				new VentanaAdministrador().setVisible(true);
 				this.dispose();
 			} else {

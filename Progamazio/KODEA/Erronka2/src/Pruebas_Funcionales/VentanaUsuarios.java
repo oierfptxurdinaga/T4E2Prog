@@ -11,6 +11,7 @@ import Metodoak.Panel_Pestaña_Tarjetas_Equipos;
 import Metodoak.Pestaña_Resultados;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 //import java.nio.file.*;
 import java.io.*;
 //import java.util.List;
@@ -180,6 +181,7 @@ public class VentanaUsuarios extends JFrame {
 
 		JTable tabla = new JTable(modelo);
 		JScrollPane scrollTabla = new JScrollPane(tabla);
+		tabla.getTableHeader().setReorderingAllowed(false);
 
 		// =====================
 		// LISTA DEL EQUIPO
@@ -349,8 +351,195 @@ public class VentanaUsuarios extends JFrame {
 		return jokalariak;
 	}
 
+	// ==============
+	// PESTAÑA CLASIFICACION
+	// ==============
+
 	private JPanel crearPanelClasificacion() {
-		return new JPanel();
+
+		JPanel panel = new JPanel(new BorderLayout(10, 10));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		// =====================
+		// SELECCIONAR TEMPORADA
+		// =====================
+		JPanel panelTop = new JPanel(new BorderLayout(5, 5));
+		JLabel lblTitulo = new JLabel("Sailkapena", SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
+		panelTop.add(lblTitulo, BorderLayout.CENTER);
+
+		// Combo temporadas existentes
+		String[] temporadas = { "2024/25", "2025/26", "2026/27", "2027/28" };
+		JComboBox<String> comboTemporadas = new JComboBox<>(temporadas);
+		panelTop.add(comboTemporadas, BorderLayout.EAST);
+		panel.add(panelTop, BorderLayout.NORTH);
+
+		// =====================
+		// TABLA CLASIFICACIÓN
+		// =====================
+		String[] columnas = { "Pos", "Taldea", "PJ", "DG", "Puntuak" };
+		DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		JTable tabla = new JTable(modelo);
+		tabla.setRowHeight(24);
+		tabla.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 12));
+		tabla.getTableHeader().setReorderingAllowed(false);
+		JScrollPane scroll = new JScrollPane(tabla);
+		panel.add(scroll, BorderLayout.CENTER);
+
+		// =====================
+		// PANEL DETALLE EQUIPO
+		// =====================
+		JPanel panelDetalle = new JPanel(new GridLayout(2, 5, 10, 5));
+		panelDetalle.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+				"Taldearen estatistikak"));
+
+		JLabel[] lblDatos = new JLabel[5];
+		String[] textos = { "PG", "PE", "PP", "GF", "GC" };
+		for (int i = 0; i < lblDatos.length; i++) {
+			lblDatos[i] = new JLabel(textos[i] + ": -", SwingConstants.CENTER);
+			lblDatos[i].setFont(new Font("Tahoma", Font.BOLD, 14));
+			panelDetalle.add(lblDatos[i]);
+		}
+		panel.add(panelDetalle, BorderLayout.SOUTH);
+
+		// =====================
+		// MODELO EQUIPO
+		// =====================
+		class Equipo {
+			String nombre;
+			int pj, pg, pe, pp, gf, gc, puntos;
+
+			Equipo(String n) {
+				nombre = n;
+			}
+
+			int dg() {
+				return gf - gc;
+			}
+		}
+
+		String[] equipos = { "Ariz", "Baskonia", "Moraza", "Santutxu", "UD La Merced", "Umore Ona" };
+		ArrayList<Equipo> clasificacion = new ArrayList<>();
+
+		// =====================
+		// LIST SELECTION LISTENER
+		// =====================
+		tabla.getSelectionModel().addListSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+				int fila = tabla.getSelectedRow();
+				if (fila >= 0 && fila < clasificacion.size()) {
+					Equipo eq = clasificacion.get(fila);
+					lblDatos[0].setText("PG: " + eq.pg);
+					lblDatos[1].setText("PE: " + eq.pe);
+					lblDatos[2].setText("PP: " + eq.pp);
+					lblDatos[3].setText("GF: " + eq.gf);
+					lblDatos[4].setText("GC: " + eq.gc);
+				}
+			}
+		});
+
+		// =====================
+		// MÉTODO PARA CARGAR TABLA SEGÚN TEMPORADA
+		// =====================
+		ActionListener cargarTemporada = evt -> {
+			String temporadaSeleccionada = (String) comboTemporadas.getSelectedItem();
+			modelo.setRowCount(0); // limpiar tabla
+			clasificacion.clear();
+
+			for (String e : equipos)
+				clasificacion.add(new Equipo(e));
+
+			// LEER RESULTADOS
+			File file = new File("resultados.csv");
+			if (file.exists()) {
+				try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+					String linea;
+					while ((linea = br.readLine()) != null) {
+						String[] p = linea.split(",");
+						if (p.length == 6) {
+							// crear Resultado
+							String temporada = p[0];
+							int jornada = Integer.parseInt(p[1]);
+							String local = p[2];
+							int gl = Integer.parseInt(p[3]);
+							String visitante = p[4];
+							int gv = Integer.parseInt(p[5]);
+
+							// filtrar por temporada
+							if (!temporada.equals(temporadaSeleccionada))
+								continue;
+
+							// actualizar estadísticas de los equipos
+							Equipo el = null, ev = null;
+							for (Equipo eq : clasificacion) {
+								if (eq.nombre.equals(local))
+									el = eq;
+								if (eq.nombre.equals(visitante))
+									ev = eq;
+							}
+
+							if (el != null && ev != null) {
+								el.pj++;
+								ev.pj++;
+								el.gf += gl;
+								el.gc += gv;
+								ev.gf += gv;
+								ev.gc += gl;
+								if (gl > gv) {
+									el.pg++;
+									el.puntos += 3;
+									ev.pp++;
+								} else if (gl < gv) {
+									ev.pg++;
+									ev.puntos += 3;
+									el.pp++;
+								} else {
+									el.pe++;
+									ev.pe++;
+									el.puntos++;
+									ev.puntos++;
+								}
+							}
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// ORDENAR
+			clasificacion.sort((a, b) -> {
+				if (b.puntos != a.puntos)
+					return b.puntos - a.puntos;
+				if (b.dg() != a.dg())
+					return b.dg() - a.dg();
+				return b.gf - a.gf;
+			});
+
+			// rellenar tabla
+			int pos = 1;
+			for (Equipo e : clasificacion)
+				modelo.addRow(new Object[] { pos++, e.nombre, e.pj, e.dg(), e.puntos });
+
+			// limpiar detalle
+			for (JLabel l : lblDatos)
+				l.setText(l.getText().split(":")[0] + ": -");
+
+			tabla.clearSelection();
+		};
+
+		// cargar inicialmente
+		cargarTemporada.actionPerformed(null);
+
+		// escuchar cambios de temporada
+		comboTemporadas.addActionListener(cargarTemporada);
+
+		return panel;
 	}
 
 }

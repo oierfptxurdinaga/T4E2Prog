@@ -107,7 +107,7 @@ public class VentanaAdministrador extends JFrame {
 				return;
 			}
 
-			 String codigoVerificacion = CodigoDeVerificacion.generar();
+			String codigoVerificacion = CodigoDeVerificacion.generar();
 
 			try (BufferedWriter bw = new BufferedWriter(new FileWriter("datos.dat", true))) {
 
@@ -120,7 +120,7 @@ public class VentanaAdministrador extends JFrame {
 				// CÓDIGO VERIFICACIÓN 14 CARACTERES
 				// =======================
 				// Llama al metodo
-				
+
 				JOptionPane.showMessageDialog(this, "Erabiltzailea behar bezala sortu da.");
 
 				// Limpiar campos
@@ -151,7 +151,6 @@ public class VentanaAdministrador extends JFrame {
 
 		return txt;
 	}
-
 
 	// =======================
 	// PESTAÑA ELIMINAR USUARIOS
@@ -334,8 +333,7 @@ public class VentanaAdministrador extends JFrame {
 		lblDestino.setBounds(450, 30, 150, 25);
 		panel.add(lblDestino);
 
-		JComboBox<String> cbEquipoOrigen = new JComboBox<>(new String[] { "Jugador Libre", "Ariz", "Baskonia", "Moraza",
-				"Santutxu", "UD La Merced", "Umore Ona" });
+		JComboBox<String> cbEquipoOrigen = new JComboBox<>();
 		cbEquipoOrigen.setBounds(200, 30, 200, 25);
 		panel.add(cbEquipoOrigen);
 
@@ -343,10 +341,22 @@ public class VentanaAdministrador extends JFrame {
 		cbJugador.setBounds(200, 70, 200, 25);
 		panel.add(cbJugador);
 
-		JComboBox<String> cbEquipoDestino = new JComboBox<>(new String[] { "Jugador Libre", "Ariz", "Baskonia",
-				"Moraza", "Santutxu", "UD La Merced", "Umore Ona" });
+		JComboBox<String> cbEquipoDestino = new JComboBox<>();
 		cbEquipoDestino.setBounds(600, 30, 200, 25);
 		panel.add(cbEquipoDestino);
+
+		cbEquipoOrigen.addItem("");
+		cbEquipoDestino.addItem("");
+
+		String[] equipos = { "Jugador Libre", "Ariz", "Baskonia", "Moraza", "Santutxu", "UD La Merced", "Umore Ona" };
+
+		for (String eq : equipos) {
+			cbEquipoOrigen.addItem(eq);
+			cbEquipoDestino.addItem(eq);
+		}
+
+		cbEquipoOrigen.setSelectedIndex(0);
+		cbEquipoDestino.setSelectedIndex(0);
 
 		JButton btnConfirmar = new JButton("Berretsi ekintza");
 		btnConfirmar.setBounds(350, 150, 200, 35);
@@ -356,8 +366,17 @@ public class VentanaAdministrador extends JFrame {
 		// Cargar jugadores
 		// =====================
 		cbEquipoOrigen.addActionListener(e -> {
+
 			cbJugador.removeAllItems();
-			String archivo = obtenerArchivoEquipo(cbEquipoOrigen.getSelectedItem().toString());
+
+			String equipo = (String) cbEquipoOrigen.getSelectedItem();
+
+			// Si está vacío, no cargar nada
+			if (equipo == null || equipo.isEmpty()) {
+				return;
+			}
+
+			String archivo = obtenerArchivoEquipo(equipo);
 
 			try {
 				if (Files.exists(Paths.get(archivo))) {
@@ -375,41 +394,28 @@ public class VentanaAdministrador extends JFrame {
 		// =====================
 		btnConfirmar.addActionListener(e -> {
 
-		    String jugadorId = (String) cbJugador.getSelectedItem();
-		    if (jugadorId == null) {
-		        JOptionPane.showMessageDialog(this, "Hautatu jokalari bat");
-		        return;
-		    }
+			String jugadorId = (String) cbJugador.getSelectedItem();
+			if (jugadorId == null) {
+				JOptionPane.showMessageDialog(this, "Hautatu jokalari bat");
+				return;
+			}
 
-		    String archivoOrigen = obtenerArchivoEquipo(
-		            cbEquipoOrigen.getSelectedItem().toString()
-		    );
+			String archivoOrigen = obtenerArchivoEquipo(cbEquipoOrigen.getSelectedItem().toString());
 
-		    String archivoDestino = obtenerArchivoEquipo(
-		            cbEquipoDestino.getSelectedItem().toString()
-		    );
+			String archivoDestino = obtenerArchivoEquipo(cbEquipoDestino.getSelectedItem().toString());
 
-		    int opcion = JOptionPane.showConfirmDialog(
-		            this,
-		            "¿Operazio honekin jarraitu nahi al duzu?",
-		            "Berretsi transferentzia",
-		            JOptionPane.YES_NO_OPTION
-		    );
+			int opcion = JOptionPane.showConfirmDialog(this, "¿Operazio honekin jarraitu nahi al duzu?",
+					"Berretsi transferentzia", JOptionPane.YES_NO_OPTION);
 
-		    if (opcion != JOptionPane.YES_OPTION)
-		        return;
+			if (opcion != JOptionPane.YES_OPTION)
+				return;
 
-		    boolean correcto = Traspaso_Y_Confirmacion.realizarTraspaso(
-		            this,
-		            jugadorId,
-		            archivoOrigen,
-		            archivoDestino
-		    );
+			boolean correcto = Traspaso_Y_Confirmacion.realizarTraspaso(this, jugadorId, archivoOrigen, archivoDestino);
 
-		    // Refrescar jugadores si todo ha ido bien
-		    if (correcto) {
-		        cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
-		    }
+			// Refrescar jugadores si todo ha ido bien
+			if (correcto) {
+				//cbEquipoOrigen.getActionListeners()[0].actionPerformed(null);
+			}
 		});
 		return panel;
 
@@ -432,15 +438,23 @@ public class VentanaAdministrador extends JFrame {
 		panel.add(lblJugador);
 
 		// Combo de equipos
-		JComboBox<String> cbEquipo = new JComboBox<>(new String[] { "Jugador Libre", "Ariz", "Baskonia", "Moraza",
-				"Santutxu", "UD La Merced", "Umore Ona" });
+		JComboBox<String> cbEquipo = new JComboBox<>();
 		cbEquipo.setBounds(200, 30, 200, 25);
 		panel.add(cbEquipo);
 
-		// Combo de jugadores según equipo seleccionado
 		JComboBox<String> cbJugador = new JComboBox<>();
 		cbJugador.setBounds(200, 70, 200, 25);
 		panel.add(cbJugador);
+
+		cbEquipo.addItem("");
+
+		String[] equipos = { "Jugador Libre", "Ariz", "Baskonia", "Moraza", "Santutxu", "UD La Merced", "Umore Ona" };
+
+		for (String eq : equipos) {
+			cbEquipo.addItem(eq);
+		}
+
+		cbEquipo.setSelectedIndex(0);
 
 		// Botón rojo borrar
 		JButton btnBorrar = new JButton("Ezabatu");
@@ -521,7 +535,7 @@ public class VentanaAdministrador extends JFrame {
 					JOptionPane.showMessageDialog(this, "Ezabatu da jokalaria");
 
 					// Refrescar combo
-					cbEquipo.getActionListeners()[0].actionPerformed(null);
+					//cbEquipo.getActionListeners()[0].actionPerformed(null);
 
 				} catch (IOException ex) {
 					JOptionPane.showMessageDialog(this, "Errore bat gertatu da erreproduzitzailea ezabatzean");
@@ -530,7 +544,7 @@ public class VentanaAdministrador extends JFrame {
 		});
 
 		// Inicializar combo de jugadores
-		cbEquipo.getActionListeners()[0].actionPerformed(null);
+		//cbEquipo.getActionListeners()[0].actionPerformed(null);
 
 		return panel;
 	}

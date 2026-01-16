@@ -6,6 +6,7 @@ import javax.swing.Timer;
 import Prueba_De_Pojos.Resultado;
 import Metodoak.Cerrar_Sesion;
 import Metodoak.Panel_Pestaña_Tarjetas_Equipos;
+import Metodoak.Pestaña_Resultados;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,6 +37,7 @@ public class VentanaArbitro extends JFrame {
 		pestañas.addTab("Taldeak Ikusi", Panel_Pestaña_Tarjetas_Equipos.crearPanelEquipos());
 		// pestañas.addTab("Taldeak Ikusi", crearPanelEquipos());
 		pestañas.addTab("Emaitzak kudeatu", crearPanelDeGestionDeResultadosDePartidos());
+		pestañas.addTab("Emaitzak", new Pestaña_Resultados());
 		pestañas.addTab("Saioa Amaitu", Cerrar_Sesion.crearPanel(this));
 		// pestañas.addTab("Amaitu saioa", crearPanelCerrarSesion());
 
@@ -114,7 +116,7 @@ public class VentanaArbitro extends JFrame {
 
 		btnCerrar.addActionListener(e -> {
 			JTabbedPane tabs = (JTabbedPane) getContentPane().getComponent(0);
-			tabs.setSelectedIndex(3);
+			tabs.setSelectedIndex(4);
 		});
 
 		panelCentro.add(panelInfo);
@@ -170,7 +172,7 @@ public class VentanaArbitro extends JFrame {
 		panel.add(lblGolesVisitante);
 
 		// ComboBox Temporada
-		String[] temporadas = { "2025/26", "2026/27", "2027/28" };
+		String[] temporadas = { "2024/25", "2025/26", "2026/27", "2027/28" };
 		JComboBox<String> comboTemporada = new JComboBox<>(temporadas);
 		comboTemporada.setBounds(120, 20, 150, 25);
 		panel.add(comboTemporada);
