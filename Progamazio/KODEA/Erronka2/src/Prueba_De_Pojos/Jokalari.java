@@ -47,4 +47,9 @@ public class Jokalari extends Pertsona {
 				+ ", abz1=" + abz1 + ", adina=" + adina + "]"+"/n";
 	}
 
+	public Object getNombre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
