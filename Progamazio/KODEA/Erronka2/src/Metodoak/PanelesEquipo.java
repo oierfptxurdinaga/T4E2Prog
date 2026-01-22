@@ -3,7 +3,23 @@ package Metodoak;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+* Talde baten informazioa erakusten duen txartel grafiko bat sortzen du.
+* Txartelak taldearen logotipoa, izena, fundazio urtea eta presidentea bistaratzen ditu.
+*/
+
 public class PanelesEquipo {
+	
+	
+	/**
+	 *
+	 * @param nombre taldearen izena
+	 * @param fundacion taldearen fundazio urtea
+	 * @param presidente taldearen presidentea
+	 * @param rutaImagen taldearen logotipoaren irudiaren fitxategi-bidea
+	 * @return taldearen informazioa duen JPanel objektua
+	 */
+
 
 	// Método público y estático para poder usarlo desde cualquier clase
 	public static JPanel crearTarjetaEquipo(String nombre, String fundacion, String presidente, String rutaImagen) {

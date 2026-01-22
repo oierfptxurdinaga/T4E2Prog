@@ -62,6 +62,24 @@ public class Pestaña_Resultados extends JPanel {
 	}
 
 	private void cargarResultados() {
+		/**
+		 * Hautatutako denboraldiaren eta taldearen araberako emaitzak kargatzen ditu.
+		 * <br>
+		 * Metodo honek erabiltzaileak aukeratutako denboraldia eta taldea hartzen ditu
+		 * interfazeko {@link JComboBox} osagaietatik, eta "resultados.csv" fitxategitik
+		 * datuak irakurtzen ditu. Baldintzak betetzen dituzten partidak taulan bistaratzen dira.
+		 * <br>
+		 * Taula kargatu aurretik hutsik uzten da, eta ondoren:
+		 * <ul>
+		 *   <li>Denboraldia bat datorrela egiaztatzen du</li>
+		 *   <li>Aukeratutako taldea lokal edo bisitari gisa agertzen dela egiaztatzen du</li>
+		 *   <li>Jardunaldien arabera ordenatzen ditu emaitzak</li>
+		 * </ul>
+		 * <br>
+		 * Emaitzen fitxategia existitzen ez bada, informazio-mezu bat erakusten zaio erabiltzaileari.
+		 * 
+		 */
+
 		String temporada = (String) comboTemporada.getSelectedItem();
 		String equipo = (String) comboEquipo.getSelectedItem();
 

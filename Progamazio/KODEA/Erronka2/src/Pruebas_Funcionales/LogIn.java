@@ -8,6 +8,7 @@ import java.util.*;
 
 import Metodoak.LoggerUtil;
 import Metodoak.VerificacionDeDatos;
+import Prueba_De_Pojos.Pertsona;
 
 public class LogIn extends JFrame {
 

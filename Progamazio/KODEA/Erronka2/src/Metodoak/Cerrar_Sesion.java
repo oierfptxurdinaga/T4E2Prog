@@ -6,8 +6,41 @@ import Pruebas_Funcionales.LogIn;
 
 import java.awt.*;
 
+/**
+ * Saioa ixteko funtzionaltasuna duen panel bat sortzeaz arduratzen den klasea.
+ * <p>
+ * Panel honek ikusmen-animazioak dituen botoi bat dauka, sagua igarotzean erreakzionatzen dutenak (hover), pixkanaka haren tamaina, kolorea eta iturria aldatuz. 
+ * <br>
+ * Botoia sakatzean, berrespena eskatuko zaio erabiltzaileari uneko saioa itxi aurretik.
+ * </p>
+ * <p>
+ * Saioaren itxiera baieztatzen bada, saioa hasteko leihoa irekiko da, eta panela inbokatzeko erabiltzen den leiho nagusia itxiko da.
+ * </p>
+ *
+ * @author T4
+ * @version 1.0
+ * @since 1.0
+ */
 public class Cerrar_Sesion {
 
+	/**
+	 * Saioa ixteko botoi bat duen {@link JPanel} bat sortu eta itzultzen du.
+	 * <p>
+	 * Botoiak ikusizko animazioak jasotzen ditu sagua gainetik pasatzean, tamaina, hondoko kolore, testu-kolore eta iturri-tamainako trantsizio leunak eginez {@link Timer} baten bidez.
+	 * </p>
+	 * <p>
+	 * Botoian klik egitean, berresteko elkarrizketa-koadro bat agertuko da.
+	 * <br>
+	 * Erabiltzaileak onartzen badu, saioa hasteko leihoa irekiko da ({@link Pruebas_Funcionales.LogIn}) eta leiho gurasoa ixten da.
+
+	 * </p>
+	 *
+	 * @param ventanaPadre JFrame nagusia, panel hau inbokatzeko erabiltzen dena. 
+	 * <br>
+	 * Erreferentzia gisa erabiltzen da berrespen-elkarrizketa erakusteko eta saioa amaitzean leihoa ixteko.
+	 * 
+	 * @return JPanel honek saioa ixteko botoia dauka animazioekin eta baieztapen integratuaren logikarekin.
+	 */
 	public static JPanel crearPanel(JFrame ventanaPadre) {
 		JPanel panel = new JPanel(new GridBagLayout());
 
@@ -87,8 +120,13 @@ public class Cerrar_Sesion {
 		});
 
 		btnCerrarSesion.addActionListener(e -> {
-			int opcion = JOptionPane.showConfirmDialog(ventanaPadre, "¿Seguru saioa itxi nahi duzula?",
-					"Berretsi saioaren itxiera", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int opcion = JOptionPane.showConfirmDialog(
+					ventanaPadre,
+					"¿Seguru saioa itxi nahi duzula?",
+					"Berretsi saioaren itxiera",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE
+			);
 
 			if (opcion == JOptionPane.YES_OPTION) {
 				new LogIn().setVisible(true);

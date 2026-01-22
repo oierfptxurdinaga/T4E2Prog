@@ -3,11 +3,28 @@ package Metodoak;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Ekipoen fitxako panela sortzeaz arduratzen den klasea.
+ * <p>
+ * Txartel-lauki bat erakusten du, non txartel bakoitzak bere izena, fundazio-urtea, presidentea eta logotipoa dituen talde bat irudikatzen duen.
+ * </p>
+ */
 public class Panel_Pestaña_Tarjetas_Equipos {
 
 	// =======================
 	// MÉTODO PÚBLICO
 	// =======================
+
+	/**
+	 * Sortu eta konfiguratu ekipoen txartelak dituen panel nagusia.
+	 * <p>
+	 * Panelak 2 errenkada eta 3 zutabeko {@link GridLayout} bat erabiltzen du, eta
+	 * txartelen eta kanpoko ertz baten artean. Txartel bakoitza metodo honen bidez sortzen da:
+	 * laguntzailea {@code crearTarjetaEquipo}.
+	 * </p>
+	 *
+	 * @return {@link JPanel} Taldeen Tarjetak dauzka
+	 */
 	public static JPanel crearPanelEquipos() {
 
 		JPanel panelEquipos = new JPanel();
@@ -35,7 +52,27 @@ public class Panel_Pestaña_Tarjetas_Equipos {
 	// =======================
 	// MÉTODO PRIVADO AUXILIAR
 	// =======================
-	private static JPanel crearTarjetaEquipo(String nombre, String fundacion, String presidente, String rutaImagen) {
+
+	/**
+	 * Sortu txartel grafiko bat ekipo baten informazioa adierazteko.
+	 * <p>
+	 * Txartelean sartzen dira:
+	 * <ul>
+	 * <li>Ekipoaren logotipoa</li>
+	 * <li>Taldearen izena</li>
+	 * <li>Sorrera-urtea</li>
+	 * <li>Lehendakariaren izena</li>
+	 * </ul>
+	 * </p>
+	 *
+	 * @param nombre: Taldearen izena
+	 * @param fundacion: Taldea zortu zen urtea
+	 * @param presidente: Presidentearen izena
+	 * @param rutaImagen: Argazki ruta
+	 * @return {@link JPanel} Tadearen "Tarjeta" errepresentatzen du
+	 */
+	private static JPanel crearTarjetaEquipo(String nombre, String fundacion,
+	                                         String presidente, String rutaImagen) {
 
 		JPanel tarjeta = new JPanel();
 		tarjeta.setBackground(Color.WHITE);

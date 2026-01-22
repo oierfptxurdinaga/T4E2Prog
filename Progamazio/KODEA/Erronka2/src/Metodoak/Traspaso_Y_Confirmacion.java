@@ -5,7 +5,31 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+
+/**
+ * Jokalarien fitxategien artean traspaso bat egiten du.
+ * <p>
+ * Metodo honek jatorrizko fitxategitik jokalari bat bilatzen du bere IDaren arabera,
+ * bertatik ezabatzen du eta helmugako fitxategira gehitzen du. Traspasoan zehar,
+ * jokalariaren dorsala jada okupatuta badago helmugako fitxategian, erabiltzaileari
+ * beste dorsal bat sartzeko eskatzen dio, baliozko eta libre dagoen bat izan arte.
+ * </p>
+ * <p>
+ * Erabiltzailearekin elkarreragina {@link JOptionPane} bidez egiten da, mezu
+ * informatiboak eta errore-mezuak erakutsiz.
+ * </p>
+ *
+ */
+
 public class Traspaso_Y_Confirmacion {
+	
+	/**
+	 * @param parent traspasoarekin lotutako elkarrizketa-koadroetarako erabiliko den leiho nagusia
+	 * @param jugadorId traspasatu nahi den jokalariaren identifikatzailea
+	 * @param archivoOrigen jokalaria dagoen jatorrizko fitxategiaren bidea
+	 * @param archivoDestino jokalaria gehituko den helmugako fitxategiaren bidea
+	 * @return {@code true} traspasoa behar bezala burutu bada; {@code false} bestela
+	 */
 
     public static boolean realizarTraspaso(
             JFrame parent,
