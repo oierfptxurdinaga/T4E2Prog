@@ -1,30 +1,90 @@
-2025/26,1,Ariz,2,Umore Ona,1
-2025/26,1,UD La Merced,4,Baskonia,1
-2025/26,1,Moraza,1,Santutxu,1
-2025/26,2,Umore Ona,1,Moraza,2
-2025/26,2,Santutxu,0,UD La Merced,3
-2025/26,2,Baskonia,1,Ariz,0
-2025/26,3,Baskonia,3,Umore Ona,2
-2025/26,3,Ariz,0,Santutxu,1
-2025/26,3,UD La Merced,3,Moraza,2
-2025/26,4,Umore Ona,2,UD La Merced,0
-2025/26,4,Moraza,2,Ariz,1
-2025/26,4,Santutxu,3,Baskonia,1
-2025/26,5,Santutxu,0,Umore Ona,2
-2025/26,5,Baskonia,1,Moraza,2
-2025/26,5,Ariz,1,UD La Merced,1
-2025/26,6,Umore Ona,0,Ariz,0
-2025/26,6,Baskonia,2,UD La Merced,0
-2025/26,6,Santutxu,1,Moraza,0
-2025/26,7,Moraza,1,Umore Ona,0
-2025/26,7,UD La Merced,1,Santutxu,0
-2025/26,7,Ariz,0,Baskonia,1
-2025/26,8,Umore Ona,0,Baskonia,0
-2025/26,8,Santutxu,1,Ariz,1
-2025/26,8,Moraza,2,UD La Merced,1
-2025/26,9,UD La Merced,1,Umore Ona,0
-2025/26,9,Ariz,1,Moraza,0
-2025/26,9,Baskonia,0,Santutxu,1
-2025/26,10,Umore Ona,2,Santutxu,1
-2025/26,10,Moraza,2,Baskonia,0
-2025/26,10,UD La Merced,2,Ariz,0
+2025/26,1,Ariz,2,Umore Ona,1;;;
+2025/26,1,UD La Merced,4,Baskonia,1;;;
+2025/26,1,Moraza,1,Santutxu,1;;;
+2025/26,2,Umore Ona,1,Moraza,2;;;
+2025/26,2,Santutxu,0,UD La Merced,3;;;
+2025/26,2,Baskonia,1,Ariz,0;;;
+2025/26,3,Baskonia,3,Umore Ona,2;;;
+2025/26,3,Ariz,0,Santutxu,1;;;
+2025/26,3,UD La Merced,3,Moraza,2;;;
+2025/26,4,Umore Ona,2,UD La Merced,0;;;
+2025/26,4,Moraza,2,Ariz,1;;;
+2025/26,4,Santutxu,3,Baskonia,1;;;
+2025/26,5,Santutxu,0,Umore Ona,2;;;
+2025/26,5,Baskonia,1,Moraza,2;;;
+2025/26,5,Ariz,1,UD La Merced,1;;;
+2025/26,6,Umore Ona,0,Ariz,0;;;
+2025/26,6,Baskonia,2,UD La Merced,0;;;
+2025/26,6,Santutxu,1,Moraza,0;;;
+2025/26,7,Moraza,1,Umore Ona,0;;;
+2025/26,7,UD La Merced,1,Santutxu,0;;;
+2025/26,7,Ariz,0,Baskonia,1;;;
+2025/26,8,Umore Ona,0,Baskonia,0;;;
+2025/26,8,Santutxu,1,Ariz,1;;;
+2025/26,8,Moraza,2,UD La Merced,1;;;
+2025/26,9,UD La Merced,1,Umore Ona,0;;;
+2025/26,9,Ariz,1,Moraza,0;;;
+2025/26,9,Baskonia,0,Santutxu,1;;;
+2025/26,10,Umore Ona,2,Santutxu,1;;;
+2025/26,10,Moraza,2,Baskonia,0;;;
+2025/26,10,UD La Merced,2,Ariz,0;;;
+2024/25,1,Ariz,Umore Ona,3,0;;;
+2024/25,1,UD La Merced,Baskonia,5,0;;;
+2024/25,1,Moraza,Santutxu,2,0;;;
+2024/25,2,Umore Ona,Moraza,2,1;;;
+2024/25,2,Santutxu,UD La Merced,1,2;;;
+2024/25,2,Baskonia,Ariz,2,0;;;
+2024/25,3,Baskonia,Umore Ona,4,1;;;
+2024/25,3,Ariz,Santutxu,1,0;;;
+2024/25,3,UD La Merced,Moraza,4,1;;;
+2024/25,4,Umore Ona,UD La Merced,3,0;;;
+2024/25,4,Moraza,Ariz,3,0;;;
+2024/25,4,Santutxu,Baskonia,4,0;;;
+2024/25,5,Santutxu,Umore Ona,1,1;;;
+2024/25,5,Baskonia,Moraza,2,1;;;
+2024/25,5,Ariz,UD La Merced,2,0;;;
+2024/25,6,Umore Ona,Ariz,1,0;;;
+2024/25,6,Baskonia,UD La Merced,3,0;;;
+2024/25,6,Santutxu,Moraza,2,0;;;
+2024/25,7,Moraza,Umore Ona,2,0;;;
+2024/25,7,UD La Merced,Santutxu,2,0;;;
+2024/25,7,Ariz,Baskonia,1,0;;;
+2024/25,8,Umore Ona,Baskonia,1,0;;;
+2024/25,8,Santutxu,Ariz,2,0;;;
+2024/25,8,Moraza,UD La Merced,3,0;;;
+2024/25,9,UD La Merced,Umore Ona,2,0;;;
+2024/25,9,Ariz,Moraza,2,0;;;
+2024/25,9,Baskonia,Santutxu,1,0;;;
+2024/25,10,Umore Ona,Santutxu,3,0;;;
+2024/25,10,Moraza,Baskonia,3,0;;;
+2024/25,10,UD La Merced,Ariz,3,0;;;
+2026/27,1,Umore Ona,Ariz,0,0;;;
+2026/27,1,Baskonia,UD La Merced,0,0;;;
+2026/27,1,Santutxu,Moraza,0,0;;;
+2026/27,2,Moraza,Umore Ona,0,0;;;
+2026/27,2,UD La Merced,Santutxu,0,0;;;
+2026/27,2,Ariz,Baskonia,0,0;;;
+2026/27,3,Umore Ona,Baskonia,0,0;;;
+2026/27,3,Santutxu,Ariz,0,0;;;
+2026/27,3,Moraza,UD La Merced,0,0;;;
+2026/27,4,UD La Merced,Umore Ona,0,0;;;
+2026/27,4,Ariz,Moraza,0,0;;;
+2026/27,4,Baskonia,Santutxu,0,0;;;
+2026/27,5,Umore Ona,Santutxu,0,0;;;
+2026/27,5,Moraza,Baskonia,0,0;;;
+2026/27,5,UD La Merced,Ariz,0,0;;;
+2026/27,6,Ariz,Umore Ona,0,0;;;
+2026/27,6,UD La Merced,Baskonia,0,0;;;
+2026/27,6,Moraza,Santutxu,0,0;;;
+2026/27,7,Umore Ona,Moraza,0,0;;;
+2026/27,7,Santutxu,UD La Merced,0,0;;;
+2026/27,7,Baskonia,Ariz,0,0;;;
+2026/27,8,Baskonia,Umore Ona,0,0;;;
+2026/27,8,Ariz,Santutxu,0,0;;;
+2026/27,8,UD La Merced,Moraza,0,0;;;
+2026/27,9,Umore Ona,UD La Merced,0,0;;;
+2026/27,9,Moraza,Ariz,0,0;;;
+2026/27,9,Santutxu,Baskonia,0,0;;;
+2026/27,10,Santutxu,Umore Ona,0,0;;;
+2026/27,10,Baskonia,Moraza,0,0;;;
+2026/27,10,Ariz,UD La Merced,0,0;;;
