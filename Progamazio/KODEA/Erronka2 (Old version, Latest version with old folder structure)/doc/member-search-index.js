@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"Metodoak","c":"LoggerUtil","l":"guardarLog(String, String)","u":"guardarLog(java.lang.String,java.lang.String)"},{"p":"Metodoak","c":"LoggerUtil","l":"LoggerUtil()","u":"%3Cinit%3E()"}];updateSearchResults();
